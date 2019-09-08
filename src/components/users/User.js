@@ -1,11 +1,14 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useContext, useEffect, Fragment } from 'react';
 import Spinner from 'components/layout/Spinner';
 import Repos from 'components/repos/Repos';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
+import GithubContext from 'context/github/githubContext';
+
+const User = ({ user, loading, getUserRepos, repos, match }) => {
+	const githubContext = useContext(GithubContext);
 	useEffect(() => {
-		getUser(match.params.login);
+		githubContext.getUser(match.params.login);
 		getUserRepos(match.params.login);
 		//eslint-disable-next-line
 	}, []);
@@ -24,9 +27,9 @@ const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
 		public_repos,
 		public_gists,
 		hirable
-	} = user;
-
-	if (loading) return <Spinner />;
+	} = githubContext.user;
+	console.log(avatar_url);
+	if (githubContext.loading) return <Spinner />;
 	return (
 		<Fragment>
 			<Link to="/" className="btn btn-light">
@@ -90,10 +93,8 @@ const User = ({ user, loading, getUser, getUserRepos, repos, match }) => {
 };
 
 User.propsType = {
-	loading: PropTypes.bool,
 	user: PropTypes.object.isRequired,
 	repos: PropTypes.array.isRequired,
-	getUser: PropTypes.func.isRequired,
 	getUserRepos: PropTypes.func.isRequired
 };
 

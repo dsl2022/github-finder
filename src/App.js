@@ -43,15 +43,6 @@ const App = () => {
 		setTimeout(() => setAlert(null), 5000);
 	};
 
-	const getUser = async (username) => {
-		setLoading(true);
-		const res = await axios.get(`https://api.github.com/users/${username}?client_id=
-		${process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=
-		${process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
-		setUser(res.data);
-		setLoading(false);
-	};
-
 	const getUserRepos = async (username) => {
 		setLoading(true);
 		const res = await axios.get(`https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client_id=
@@ -79,7 +70,7 @@ const App = () => {
 											showClear={users.length > 0 ? true : false}
 											setAlert={showAlert}
 										/>
-										<Users loading={loading} users={users} />
+										<Users />
 									</Fragment>
 								)}
 							/>
@@ -90,7 +81,6 @@ const App = () => {
 								render={(props) => (
 									<User
 										{...props}
-										getUser={getUser}
 										getUserRepos={getUserRepos}
 										repos={repos}
 										user={user}
