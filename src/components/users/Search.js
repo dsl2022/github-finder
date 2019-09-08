@@ -7,7 +7,7 @@ export default class Search extends Component {
 	static propTypes = {
 		searchUsers: PropTypes.func.isRequired,
 		clearUsers: PropTypes.func.isRequired,
-		showClear: PropTypes.func.isRequired,
+		showClear: PropTypes.bool.isRequired,
 		setAlert: PropTypes.func.isRequired
 	};
 	onSubmit = (e) => {
