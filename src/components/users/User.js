@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import GithubContext from 'context/github/githubContext';
 
-const User = ({ user, loading, getUserRepos, repos, match }) => {
+const User = ({ match }) => {
 	const githubContext = useContext(GithubContext);
+	const { getUser, getUserRepos, loading, user, repos } = githubContext;
 	useEffect(() => {
-		githubContext.getUser(match.params.login);
+		getUser(match.params.login);
 		getUserRepos(match.params.login);
 		//eslint-disable-next-line
 	}, []);
@@ -27,9 +28,9 @@ const User = ({ user, loading, getUserRepos, repos, match }) => {
 		public_repos,
 		public_gists,
 		hirable
-	} = githubContext.user;
+	} = user;
 	console.log(avatar_url);
-	if (githubContext.loading) return <Spinner />;
+	if (loading) return <Spinner />;
 	return (
 		<Fragment>
 			<Link to="/" className="btn btn-light">
@@ -90,12 +91,6 @@ const User = ({ user, loading, getUserRepos, repos, match }) => {
 			<Repos repos={repos} />
 		</Fragment>
 	);
-};
-
-User.propsType = {
-	user: PropTypes.object.isRequired,
-	repos: PropTypes.array.isRequired,
-	getUserRepos: PropTypes.func.isRequired
 };
 
 export default User;
